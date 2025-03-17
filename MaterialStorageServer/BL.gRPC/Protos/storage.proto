@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "BL.gRPC";
+
+service Storage {
+	rpc Store (StoreRequest) returns (StoreResponse);
+	rpc Withdraw (WithdrawRequest) returns (WithdrawResponse);
+}
+
+message StoreRequest {
+	int32 amount = 1;
+}
+
+message WithdrawRequest {
+	int32 amount = 1;
+}
+
+message WithdrawResponse {
+	repeated string errors = 1;
+}
+
+message StoreResponse {
+	repeated string errors = 1;
+}
