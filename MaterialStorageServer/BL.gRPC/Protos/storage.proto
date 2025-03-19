@@ -8,17 +8,21 @@ service Storage {
 }
 
 message StoreRequest {
-	int32 amount = 1;
+	uint32 amount = 1;
 }
 
 message WithdrawRequest {
-	int32 amount = 1;
+	uint32 amount = 1;
 }
 
 message WithdrawResponse {
-	repeated string errors = 1;
+	ResultMessage result = 1;
 }
 
 message StoreResponse {
+	ResultMessage result = 1;
+}
+
+message ResultMessage {
 	repeated string errors = 1;
 }

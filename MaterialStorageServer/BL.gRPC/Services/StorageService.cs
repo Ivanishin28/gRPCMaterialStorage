@@ -1,11 +1,6 @@
 ﻿using DL.Repositories;
 using Domain.Models;
 using Grpc.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.gRPC.Services
 {
@@ -13,15 +8,33 @@ namespace BL.gRPC.Services
     {
         private IStorageRepository _repository;
 
+        public StorageService(IStorageRepository repository)
+        {
+            _repository = repository;
+        }
+
         public override Task<StoreResponse> Store(StoreRequest request, ServerCallContext context)
         {
             var material = new Material(request.Amount);
-            return base.Store(request, context);
+            var storage = _repository.GetStorage();
+            var storageResponse = storage.StoreMaterial(material);
+            var result = new StoreResponse()
+            {
+                Result = new ResultMessage { Errors = { storageResponse.Errors } }
+            };
+            return Task.FromResult(result);
         }
 
         public override Task<WithdrawResponse> Withdraw(WithdrawRequest request, ServerCallContext context)
         {
-            return base.Withdraw(request, context);
+            var material = new Material(request.Amount);
+            var storage = _repository.GetStorage();
+            var storageResponse = storage.StoreMaterial(material);
+            var result = new WithdrawResponse()
+            {
+                Result = new ResultMessage { Errors = { storageResponse.Errors } }
+            };
+            return Task.FromResult(result);
         }
     }
 }

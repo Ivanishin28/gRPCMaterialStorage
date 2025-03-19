@@ -12,8 +12,6 @@ namespace Domain.Models
         public Material StoredMaterial { get; private set; }
         public Material StorageCapacity { get; private set; }
 
-        private Storage() { }
-
         public Storage(Material storedMaterial, Material storageCapacity)
         {
             if (storedMaterial.CompareTo(storageCapacity) > 0)
@@ -32,7 +30,7 @@ namespace Domain.Models
 
                 if (StorageCapacity.CompareTo(newMaterial) > 0)
                 {
-                    return Result.Failure("Stored amount exciedes storage capacity");
+                    return Result.Failure("Stored amount exceedes storage capacity");
                 }
 
                 StoredMaterial = newMaterial;
@@ -44,14 +42,12 @@ namespace Domain.Models
         {
             lock(_lock)
             {
-                var newMaterial = StoredMaterial.Remove(material);
-
-                if (newMaterial < 0)
+                if (StoredMaterial.CompareTo(material) < 0)
                 {
                     return Result.Failure("Storage does not have enough material");
                 }
 
-                StoredMaterial = new Material(newMaterial);
+                StoredMaterial = StoredMaterial.Remove(material);
                 return Result.Success();
             }
         }

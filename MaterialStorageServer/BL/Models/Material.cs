@@ -8,15 +8,10 @@ namespace Domain.Models
 {
     public class Material : IComparable<Material>
     {
-        public int Amount { get; private set; }
+        public uint Amount { get; private set; }
 
-        public Material(int amount)
+        public Material(uint amount)
         {
-            if(amount < 0)
-            {
-                throw new ArgumentException("Amount of material can not be lesser than zero");
-            }
-
             Amount = amount;
         }
 
