@@ -11,10 +11,8 @@ namespace Domain.Models
     {
         private List<string> _errors = new List<string>();
 
-        public bool IsSuccess => _errors.Count == 0;
-
         public IImmutableList<string> Errors => _errors.ToImmutableList();
-        public string? ErrorMessage => _errors.Count > 0 ? String.Join(" ", _errors) : null;
+        public bool IsSuccess => _errors.Count == 0;
 
         private Result() { }
 

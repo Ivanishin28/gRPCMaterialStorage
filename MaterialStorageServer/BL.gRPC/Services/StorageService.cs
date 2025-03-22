@@ -17,12 +17,22 @@ namespace BL.gRPC.Services
         {
             var material = new Material(request.Amount);
             var storage = _repository.GetStorage();
-            var storageResponse = storage.StoreMaterial(material);
-            var result = new StoreResponse()
+            var storeResult = storage.StoreMaterial(material);
+
+            if (storeResult.IsSuccess)
             {
-                Result = new ResultMessage { Errors = { storageResponse.Errors } }
+                Console.WriteLine($"Successfully stored ${material.Amount}");
+            }
+            else
+            {
+                Console.WriteLine(storeResult.ErrorMessage);
+            }
+
+            var storeResponse = new StoreResponse()
+            {
+                Result = new ResultMessage { Errors = { storeResult.Errors } }
             };
-            return Task.FromResult(result);
+            return Task.FromResult(storeResponse);
         }
 
         public override Task<WithdrawResponse> Withdraw(WithdrawRequest request, ServerCallContext context)

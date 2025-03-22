@@ -16,7 +16,7 @@ namespace Domain.Models
         {
             if (storedMaterial.CompareTo(storageCapacity) > 0)
             {
-                throw new ArgumentException("Stored amount exceeds storage capacity");
+                throw new ArgumentException("Stored amount exciedes storage capacity");
             }
 
             StoredMaterial = storedMaterial;
