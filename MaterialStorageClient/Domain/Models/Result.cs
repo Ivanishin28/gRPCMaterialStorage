@@ -13,6 +13,7 @@ namespace Domain.Models
 
         public IImmutableList<string> Errors => _errors.ToImmutableList();
         public bool IsSuccess => _errors.Count == 0;
+        public string? ErrorMessage => IsSuccess ? null : String.Join(' ', _errors);
 
         private Result() { }
 

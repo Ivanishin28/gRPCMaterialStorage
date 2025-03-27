@@ -1,22 +1,31 @@
 ﻿using BL.gRPC;
+using BL.Interfaces;
+using Domain.Models;
 using Grpc.Net.Client;
 
 namespace Host.App
 {
     public class Application
     {
-        private Storage.StorageClient _storageClient;
+        private IStorageService _storageService;
 
-        public Application(Storage.StorageClient storageClient)
+        public Application(IStorageService storageService)
         {
-            _storageClient = storageClient;
+            _storageService = storageService;
         }
 
         public async void Start()
         {
-            var message = new StoreRequest { Amount = 1000 };
-            var storeResponse = await _storageClient.StoreAsync(message);
-            Console.WriteLine(storeResponse.Result.Errors.ToArray().Length);
+            var materialToStore = new Material(1000);
+            var result = await _storageService.Store(materialToStore);
+            if (result.IsSuccess)
+            {
+                Console.WriteLine("Success!");
+            }
+            else
+            {
+                Console.WriteLine(result.ErrorMessage);
+            }
         }
     }
 }
