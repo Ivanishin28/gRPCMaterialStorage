@@ -28,7 +28,7 @@ namespace Domain.Models
             lock(_lock) {
                 var newMaterial = StoredMaterial.Add(material);
 
-                if (StorageCapacity.CompareTo(newMaterial) > 0)
+                if (StorageCapacity.CompareTo(newMaterial) < 0)
                 {
                     return Result.Failure("Stored amount exceedes storage capacity");
                 }
